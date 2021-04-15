@@ -4,11 +4,28 @@ const db = require("../models");
 
 router.get("/all", (req, res) => {
   try {
+    // db.Doctor.findAll({
+    //   include: [{ all: true }],
+    // }).then((users) => {
+    //   res.json(users);
+    // });
     db.Doctor.findAll({
-      include: [{ all: true }],
-    }).then((users) => {
-      res.json(users);
-    });
+      include: [
+        {
+          model: db.User,
+        },
+        {
+          model: db.Schedule,
+          include: [db.Slot],
+        },
+        {
+          model: db.Education,
+        },
+        {
+          model: db.Specialty,
+        },
+      ],
+    }).then((doctors) => res.status(200).json(doctors));
   } catch (error) {
     console.error(error);
   }

@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": " SourceCodePro-Light, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontFamily": " 'courier prime code', SourceCodePro-Light, Menlo, Monaco, 'Courier New', monospace",
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
