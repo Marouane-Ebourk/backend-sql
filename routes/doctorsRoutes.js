@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const verify = require("../middleware/auth");
 
-router.get("/all", (req, res) => {
+router.get("/all", verify, (req, res) => {
   try {
     // db.Doctor.findAll({
     //   include: [{ all: true }],

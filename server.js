@@ -28,6 +28,9 @@ app.use("/api/apps", appointmentRoutes);
 const specialtiesRoutes = require("./routes/specialtiesRoutes");
 app.use("/api/specialties", specialtiesRoutes);
 
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
 db.sequelize.sync().then(() => {
   app.listen("4000", () => {
     console.log(`listening to port 4000`);
