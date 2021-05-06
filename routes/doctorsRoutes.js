@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require("../models");
 const verify = require("../middleware/auth");
 
-router.get("/all", verify, (req, res) => {
+router.get("/all", (req, res) => {
   try {
     // db.Doctor.findAll({
     //   include: [{ all: true }],
