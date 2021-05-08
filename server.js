@@ -28,6 +28,9 @@ app.use("/api/apps", appointmentRoutes);
 const specialtiesRoutes = require("./routes/specialtiesRoutes");
 app.use("/api/specialties", specialtiesRoutes);
 
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api/admin", adminRoutes);
+
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 

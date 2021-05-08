@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const jwt = require("jsonwebtoken");
 
 router.get("/all", (req, res) => {
   try {
@@ -8,6 +9,19 @@ router.get("/all", (req, res) => {
       include: [{ all: true }],
     }).then((users) => {
       res.json(users);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
+  try {
+    db.Patient.findOne({
+      include: [{ all: true }],
+    }).then((patient) => {
+      res.json(patient);
     });
   } catch (error) {
     console.error(error);
@@ -29,7 +43,11 @@ router.post("/new", async (req, res) => {
           phone_number: req.body.phone_number,
           UserId: user.id,
         }).then(async (patient) => {
-          res.status(200).send(patient);
+          const token = jwt.sign(
+            { id: user.id, name: user.name, role:user.RoleId },
+            process.env.jwt_secret
+          );
+          res.header("auth-token", token).send(token);
         });
       })
       .catch((err) => res.status(400).send(err));

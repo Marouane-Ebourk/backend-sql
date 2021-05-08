@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 const verify = require("../middleware/auth");
+const jwt = require("jsonwebtoken");
 
 router.get("/all", (req, res) => {
   try {
@@ -27,6 +28,32 @@ router.get("/all", (req, res) => {
         },
       ],
     }).then((doctors) => res.status(200).json(doctors));
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
+  try {
+
+    db.Doctor.findOne({
+      include: [
+        {
+          model: db.User,
+        },
+        {
+          model: db.Schedule,
+          include: [db.Slot],
+        },
+        {
+          model: db.Education,
+        },
+        {
+          model: db.Specialty,
+        },
+      ],
+    }).then((doctor) => res.status(200).json(doctor));
   } catch (error) {
     console.error(error);
   }
@@ -62,7 +89,13 @@ router.post("/new", async (req, res) => {
             });
           });
 
-          res.status(200).send(doc);
+          const token = jwt.sign(
+            { id: user.id, name: user.name, role:user.RoleId },
+            process.env.jwt_secret
+          );
+          res.header("auth-token", token).send(token);
+
+          // res.status(200).send(doc);
         });
       })
       .catch((err) => res.status(400).send(err));

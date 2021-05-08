@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
       Patient.hasMany(models.Appointment, {
-        onDelete: "cascade",
+        
       });
     }
   }

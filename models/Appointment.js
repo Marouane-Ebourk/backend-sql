@@ -8,6 +8,16 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false,
         },
       });
+      Appointment.belongsTo(models.Patient, {
+        foreignKey: {
+          allowNull: false,
+        },
+      });
+      Appointment.belongsTo(models.Slot, {
+        foreignKey: {
+          allowNull: false,
+        },
+      });
     }
   }
   Appointment.init(

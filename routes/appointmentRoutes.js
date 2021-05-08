@@ -5,7 +5,21 @@ const db = require("../models");
 router.get("/all", async (req, res) => {
   try {
     await db.Appointment.findAll({
-      include: [{ all: true }],
+      include: [
+
+        {
+          model: db.Doctor,
+          include: [db.User],
+        },
+        {
+          model: db.Patient,
+          include: [db.User],
+        },
+        {
+          model: db.Slot,
+          
+        }
+      ],
     })
       .then((apps) => res.status(200).send(apps))
       .catch((err) => res.status(400).send(err));
