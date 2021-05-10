@@ -44,7 +44,7 @@ router.post("/new", async (req, res) => {
           UserId: user.id,
         }).then(async (patient) => {
           const token = jwt.sign(
-            { id: user.id, name: user.name, role:user.RoleId },
+            { id: user.id, name: user.name, role: user.RoleId },
             process.env.jwt_secret
           );
           res.header("auth-token", token).send(token);
@@ -70,10 +70,26 @@ router.put("/update/:id", async (req, res) => {
 
     patient
       .save()
-      .then((d) => {
-        res.status(200).json(d);
+      .then(async (patient) => {
+        const id = patient.UserId;
+        const user = await db.User.findOne({
+          where: {
+            id: id,
+          },
+        });
+        user.name = req.body.name;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.RoleId = 3;
+
+        user
+          .save()
+          .then(() => {
+            res.status(200).send("success");
+          })
+          .catch((err) => res.status(400).send(err));
       })
-      .catch((err) => res.status(400).json(err));
+      .catch((err) => res.send(err));
   } catch (error) {
     console.error(error);
   }
