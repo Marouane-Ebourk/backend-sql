@@ -6,7 +6,6 @@ router.get("/all", async (req, res) => {
   try {
     await db.Appointment.findAll({
       include: [
-
         {
           model: db.Doctor,
           include: [db.User],
@@ -17,8 +16,7 @@ router.get("/all", async (req, res) => {
         },
         {
           model: db.Slot,
-          
-        }
+        },
       ],
     })
       .then((apps) => res.status(200).send(apps))
@@ -27,6 +25,30 @@ router.get("/all", async (req, res) => {
     console.error(error);
   }
 });
+// get all appointments of a patient
+// router.get("/:id", (req, res) => {
+//   const id = req.params.id;
+//   try {
+//     db.Appointment.findAll({
+//       where: { PatientId: id },
+//       include: [
+//         {
+//           model: db.Patient,
+//         },
+//         {
+//           model: db.Doctor,
+//         },
+//         {
+//           model: db.Slot,
+//         },
+//       ],
+//     })
+//       .then((app) => res.status(200).json(app))
+//       .catch((err) => res.status(400).send(err));
+//   } catch (err) {
+//     console.error(err);
+//   }
+// });
 
 router.post("/new/:id", async (req, res) => {
   const id = req.params.id;

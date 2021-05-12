@@ -19,7 +19,12 @@ router.get("/:id", (req, res) => {
   const id = req.params.id;
   try {
     db.Patient.findOne({
-      include: [{ all: true }],
+      where: { UserId: id },
+      include: [
+        { model: db.Feedback },
+        { model: db.User },
+        { model: db.Appointment, include: [db.Doctor, db.Slot] },
+      ],
     }).then((patient) => {
       res.json(patient);
     });
